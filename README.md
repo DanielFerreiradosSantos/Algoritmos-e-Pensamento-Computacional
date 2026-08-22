@@ -1,2 +1,2 @@
-# pensamento-computacional-desenvolvimento-de-algoritmo-
+# Algoritmos e Pensamento Computacional
 aula da faculdade 
