@@ -61,3 +61,9 @@ Se quiser testar o projeto na sua máquina:
 1. Clone o repositório:
    ```bash
    git clone [https://github.com/DanielFerreiradosSantos/Algoritmos-e-Pensamento-Computacional.git](https://github.com/DanielFerreiradosSantos/Algoritmos-e-Pensamento-Computacional.git)
+
+Compile o arquivo em C (lembre de usar a flag -lm por causa das funções matemáticas):
+   gcc "calculadora cientifica em c.c" -o calculadora -lm
+
+Execute:
+./calculadora
