@@ -1,1 +1,1163 @@
 
+// ============================================================
+// BIBLIOTECAS
+// ============================================================
+
+// Biblioteca para trabalhar com caracteres
+#include <ctype.h>
+
+// Biblioteca de entrada e saída.
+// Possui funções como printf(), fgets() e fprintf().
+#include <stdio.h>
+
+// Biblioteca com funções gerais.
+// Possui funções como malloc(), atoi(), atof() e exit().
+#include <stdlib.h>
+
+// Permite utilizar o tipo bool, true e false.
+#include <stdbool.h>
+
+// Biblioteca de matemática.
+// Possui funções como pow(), sqrt(), sin(), cos(), etc.
+#include <math.h>
+
+// Biblioteca para trabalhar com strings.
+// Possui funções como strlen() e memcpy().
+#include <string.h>
+
+// Biblioteca utilizada para verificar erros em algumas operações.
+#include <errno.h>
+
+
+// ============================================================
+// PROTÓTIPOS DAS FUNÇÕES DE CONVERSÃO
+// ============================================================
+
+// Protótipo da função que transforma um texto em inteiro.
+int toInt(const char* text);
+
+// Protótipo da função que transforma um texto em número real.
+double toReal(const char* text);
+
+// Protótipo da função que transforma um número real em texto.
+const char* toString(double value);
+
+
+// ============================================================
+// PROTÓTIPOS DAS FUNÇÕES DE ENTRADA E AUXILIARES
+// ============================================================
+
+// Função que lê um número digitado pelo usuário.
+double inputValue(void);
+
+// Função que lê uma string digitada pelo usuário.
+char* inputString(void);
+
+// Função que lê true ou false.
+bool inputBool(void);
+
+// Função que junta duas strings.
+char* stringConcat(const char* s1, const char* s2);
+
+// Função que transforma um código inteiro em caractere.
+char* toChar(int code);
+
+// Função que transforma um inteiro em string.
+char* intToString(int value);
+
+// Função que transforma um número real em string.
+char* realToString(double value);
+
+// Função que transforma um booleano em string.
+char* boolToString(bool value);
+
+
+// ============================================================
+// FUNÇÃO PRINCIPAL
+// ============================================================
+
+int main(void) {
+
+    // Declara duas variáveis inteiras.
+    //
+    // op = opção escolhida no menu.
+    // i  = contador utilizado no cálculo do fatorial.
+    int op, i;
+
+    // Declara três variáveis do tipo double.
+    //
+    // a      = primeiro valor digitado.
+    // b      = segundo valor digitado.
+    // result = resultado da operação.
+    double a, b, result;
+
+
+    // Coloca 1 inicialmente na variável op.
+    //
+    // Isso faz com que o while possa começar.
+    op = 1;
+
+
+    // Enquanto op for diferente de 0,
+    // o menu continuará sendo repetido.
+    //
+    // Quando o usuário escolher 0,
+    // o while será encerrado.
+    while (op != 0) {
+
+        // Mostra o título da calculadora.
+        printf("%s\n", "=== Calculadora Cientifica ===");
+
+        // Mostra as operações de 1 até 6.
+        printf("%s\n", "1:Soma | 2:Subtração | 3:Multiplicação | 4:Divisão | 5:Potência | 6:Módulo");
+
+        // Mostra as operações de 7 até 13.
+        printf("%s\n", "7:Raiz | 8:Seno | 9:Cosseno | 10:Tangente | 11:Asin | 12:Acos | 13:Atan");
+
+        // Mostra as operações de 14 até 20.
+        printf("%s\n", "14:Log10 | 15:Ln | 16:Exp | 17:Abs | 18:Int | 19:Sinal | 20:Fatorial");
+
+        // Mostra a opção para sair.
+        printf("%s\n", "0:Sair");
+
+        // Mostra uma linha para separar o menu.
+        printf("%s\n", "--------------------------------");
+
+        // Pede para o usuário escolher uma operação.
+        printf("%s\n", "Escolha a operacao (0 a 20):");
+
+        // Lê o número digitado pelo usuário.
+        //
+        // inputValue() retorna um double.
+        // (int) transforma esse valor em inteiro.
+        // O valor finalmente é armazenado em op.
+        op = (int) inputValue();
+
+
+        // Verifica se a opção está entre 1 e 20.
+        //
+        // && significa "E".
+        //
+        // Portanto:
+        // op precisa ser maior que 0
+        // E
+        // op precisa ser menor ou igual a 20.
+        if (op > 0 && op <= 20) {
+
+
+            // ====================================================
+            // OPERAÇÕES QUE PRECISAM DE DOIS VALORES
+            // ====================================================
+
+            // Verifica se a operação está entre 1 e 6.
+            //
+            // Essas operações precisam de A e B.
+            if (op >= 1 && op <= 6) {
+
+                // Pede o primeiro valor.
+                printf("%s\n", "Digite o valor de A:");
+
+                // Lê o valor de A.
+                a = inputValue();
+
+                // Pede o segundo valor.
+                printf("%s\n", "Digite o valor de B:");
+
+                // Lê o valor de B.
+                b = inputValue();
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 1 - SOMA
+                // ------------------------------------------------
+
+                // Se op for igual a 1,
+                // realiza a soma.
+                if (op == 1) {
+
+                    // Soma A + B e guarda o resultado.
+                    result = (a + b);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 2 - SUBTRAÇÃO
+                // ------------------------------------------------
+
+                // Se op for igual a 2,
+                // realiza a subtração.
+                if (op == 2) {
+
+                    // Subtrai B de A.
+                    result = (a - b);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 3 - MULTIPLICAÇÃO
+                // ------------------------------------------------
+
+                // Se op for igual a 3,
+                // realiza a multiplicação.
+                if (op == 3) {
+
+                    // Multiplica A por B.
+                    result = (a * b);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 4 - DIVISÃO
+                // ------------------------------------------------
+
+                // Se op for igual a 4,
+                // realiza a divisão.
+                if (op == 4) {
+
+                    // Verifica se B é diferente de zero.
+                    //
+                    // != significa "diferente de".
+                    if (b != 0) {
+
+                        // Divide A por B.
+                        result = (a / b);
+
+                    } else {
+
+                        // Se B for zero, mostra uma mensagem de erro.
+                        printf("%s\n", "ERRO: Divisao por zero!");
+
+                        // Coloca 0 como resultado.
+                        result = 0;
+                    }
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 5 - POTÊNCIA
+                // ------------------------------------------------
+
+                // Se op for igual a 5,
+                // calcula a potência.
+                if (op == 5) {
+
+                    // pow(a, b) significa A elevado a B.
+                    //
+                    // Exemplo:
+                    // pow(2, 3) = 8
+                    result = pow(a, b);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 6 - MÓDULO
+                // ------------------------------------------------
+
+                // Se op for igual a 6,
+                // calcula o módulo/resto da divisão.
+                if (op == 6) {
+
+                    // Calcula o resto da divisão.
+                    result = (a % b);
+                }
+
+
+            } else {
+
+                // ====================================================
+                // OPERAÇÕES QUE PRECISAM DE APENAS UM VALOR
+                // ====================================================
+
+                // Pede o valor de A.
+                printf("%s\n", "Digite o valor de A:");
+
+                // Lê o valor digitado.
+                a = inputValue();
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 7 - RAIZ QUADRADA
+                // ------------------------------------------------
+
+                // Se op for 7,
+                // calcula a raiz quadrada.
+                if (op == 7) {
+
+                    // sqrt() calcula a raiz quadrada.
+                    result = sqrt(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 8 - SENO
+                // ------------------------------------------------
+
+                if (op == 8) {
+
+                    // Calcula o seno de A.
+                    result = sin(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 9 - COSSENO
+                // ------------------------------------------------
+
+                if (op == 9) {
+
+                    // Calcula o cosseno de A.
+                    result = cos(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 10 - TANGENTE
+                // ------------------------------------------------
+
+                if (op == 10) {
+
+                    // Calcula a tangente de A.
+                    result = tan(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 11 - ASIN
+                // ------------------------------------------------
+
+                if (op == 11) {
+
+                    // Calcula o arco seno de A.
+                    result = asin(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 12 - ACOS
+                // ------------------------------------------------
+
+                if (op == 12) {
+
+                    // Calcula o arco cosseno de A.
+                    result = acos(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 13 - ATAN
+                // ------------------------------------------------
+
+                if (op == 13) {
+
+                    // Calcula o arco tangente de A.
+                    result = atan(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 14 - LOG10
+                // ------------------------------------------------
+
+                if (op == 14) {
+
+                    // Calcula o logaritmo na base 10.
+                    result = log10(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 15 - LN
+                // ------------------------------------------------
+
+                if (op == 15) {
+
+                    // log() calcula o logaritmo natural (ln).
+                    result = log(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 16 - EXP
+                // ------------------------------------------------
+
+                if (op == 16) {
+
+                    // exp(a) calcula e elevado a A.
+                    result = exp(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 17 - ABS
+                // ------------------------------------------------
+
+                if (op == 17) {
+
+                    // fabs() calcula o valor absoluto.
+                    //
+                    // Exemplo:
+                    // fabs(-10) = 10
+                    result = fabs(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 18 - INT
+                // ------------------------------------------------
+
+                if (op == 18) {
+
+                    // (int) converte A para inteiro.
+                    //
+                    // Exemplo:
+                    // 5.8 -> 5
+                    result = (int)(a);
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 19 - SINAL
+                // ------------------------------------------------
+
+                if (op == 19) {
+
+                    // Operador ternário.
+                    //
+                    // Se A for maior que 0, resultado = 1.
+                    //
+                    // Caso contrário, verifica se A é menor que 0.
+                    // Se for, resultado = -1.
+                    //
+                    // Caso contrário, resultado = 0.
+                    result = (a > 0 ? 1 : (a < 0 ? -1 : 0));
+                }
+
+
+                // ------------------------------------------------
+                // OPERAÇÃO 20 - FATORIAL
+                // ------------------------------------------------
+
+                if (op == 20) {
+
+                    // O fatorial começa com 1.
+                    result = 1;
+
+                    // Laço for.
+                    //
+                    // i começa em 1.
+                    // Enquanto i for menor ou igual a A,
+                    // o laço continua.
+                    //
+                    // i++ significa aumentar i em 1.
+                    for (i = 1; i <= (int)(a); i++) {
+
+                        // Multiplica o resultado atual por i.
+                        //
+                        // Exemplo para 5:
+                        //
+                        // 1 * 1
+                        // 1 * 2
+                        // 2 * 3
+                        // 6 * 4
+                        // 24 * 5
+                        //
+                        // Resultado = 120
+                        result = (result * i);
+                    }
+                }
+            }
+
+
+            // ====================================================
+            // MOSTRANDO O RESULTADO
+            // ====================================================
+
+            // realToString(result)
+            // transforma o número result em texto.
+            //
+            // stringConcat()
+            // junta duas strings.
+            //
+            // Primeiro junta:
+            //
+            // "=====> Resultado: "
+            //
+            // com o resultado convertido para texto.
+            //
+            // Depois junta isso com "\\r\\n".
+            //
+            // Por fim, printf() mostra o texto na tela.
+            printf("%s\n", stringConcat(stringConcat("=====> Resultado: ", realToString(result)), "\\r\\n"));
+
+
+        } else {
+
+            // ====================================================
+            // OPÇÃO INVÁLIDA
+            // ====================================================
+
+            // Verifica se a opção não é 0.
+            //
+            // Isso é importante porque 0 significa sair.
+            if (op != 0) {
+
+                // Mostra uma mensagem de erro.
+                printf("%s\n", "Opcao Invalida!");
+            }
+        }
+    }
+
+
+    // Retorna 0 indicando que o programa terminou normalmente.
+    return 0;
+}
+
+
+// ============================================================
+// IMPLEMENTAÇÃO DAS FUNÇÕES DE SUPORTE
+// ============================================================
+
+
+// ------------------------------------------------------------
+// FUNÇÃO toInt
+// ------------------------------------------------------------
+
+// Recebe um texto e retorna um número inteiro.
+int toInt(const char* text) {
+
+    // atoi() transforma o texto em inteiro.
+    //
+    // Exemplo:
+    // "123" -> 123
+    return atoi(text);
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO toReal
+// ------------------------------------------------------------
+
+// Recebe um texto e retorna um número real.
+double toReal(const char* text) {
+
+    // atof() transforma o texto em double.
+    //
+    // Exemplo:
+    // "3.14" -> 3.14
+    return atof(text);
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO toString
+// ------------------------------------------------------------
+
+// Recebe um número double e retorna uma string.
+const char* toString(double value) {
+
+    // Cria um array de caracteres com espaço para 64 caracteres.
+    //
+    // static significa que esse espaço continua existindo
+    // mesmo depois que a função terminar.
+    static char buffer[64];
+
+    // Converte o número para texto e coloca em buffer.
+    //
+    // %g é usado para mostrar um número real.
+    snprintf(buffer, sizeof(buffer), "%g", value);
+
+    // Retorna o texto armazenado em buffer.
+    return buffer;
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO inputValue
+// ------------------------------------------------------------
+
+// Lê um número digitado pelo usuário.
+double inputValue(void) {
+
+    // Cria um array de caracteres para armazenar
+    // temporariamente aquilo que o usuário digitou.
+    char buffer[1024];
+
+
+    // for(;;) é um loop infinito.
+    //
+    // Ele continuará repetindo até encontrar um return.
+    for (;;) {
+
+        // fgets() lê uma linha digitada pelo usuário.
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+
+            // Se não conseguir ler,
+            // retorna 0.0.
+            return 0.0;
+        }
+
+
+        // strlen() calcula o tamanho da string.
+        size_t len = strlen(buffer);
+
+
+        // Verifica se existe uma quebra de linha no final.
+        if (len > 0 && buffer[len - 1] == '\n') {
+
+            // Troca o '\n' por '\0'.
+            //
+            // '\0' representa o final da string.
+            buffer[len - 1] = '\0';
+        }
+
+
+        // Zera o indicador de erro.
+        errno = 0;
+
+
+        // Cria um ponteiro que será utilizado
+        // pela função strtod().
+        char* endptr;
+
+
+        // Tenta transformar o texto em um número double.
+        //
+        // Exemplo:
+        // "25.5" -> 25.5
+        double value = strtod(buffer, &endptr);
+
+
+        // Verifica se a conversão foi válida.
+        //
+        // endptr != buffer
+        // significa que alguma coisa foi convertida.
+        //
+        // *endptr == '\0'
+        // significa que não sobrou texto inválido.
+        //
+        // errno == 0
+        // significa que não ocorreu erro.
+        if (endptr != buffer && *endptr == '\0' && errno == 0) {
+
+            // Se estiver tudo certo,
+            // retorna o número.
+            return value;
+        }
+
+
+        // Se o valor não for válido,
+        // mostra uma mensagem de erro.
+        fprintf(stderr, "Valore non valido. Inserire un numero.\n");
+
+        // Como estamos dentro do for infinito,
+        // o programa volta para o começo do loop
+        // e pede outro número.
+    }
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO stringConcat
+// ------------------------------------------------------------
+
+// Junta duas strings.
+char* stringConcat(const char* s1, const char* s2) {
+
+    // Calcula o tamanho da primeira string.
+    //
+    // Se s1 for NULL, considera tamanho 0.
+    size_t len1 = (s1 != NULL) ? strlen(s1) : 0;
+
+
+    // Calcula o tamanho da segunda string.
+    //
+    // Se s2 for NULL, considera tamanho 0.
+    size_t len2 = (s2 != NULL) ? strlen(s2) : 0;
+
+
+    // Reserva memória suficiente para guardar
+    // as duas strings juntas + '\0'.
+    char* result = (char*)malloc(len1 + len2 + 1);
+
+
+    // Verifica se malloc() conseguiu reservar memória.
+    if (result == NULL) {
+
+        // Mostra uma mensagem de erro.
+        fprintf(stderr, "Errore: memoria insufficiente in stringConcat.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Se s1 existir...
+    if (s1 != NULL) {
+
+        // Copia s1 para result.
+        memcpy(result, s1, len1);
+    }
+
+
+    // Se s2 existir...
+    if (s2 != NULL) {
+
+        // Copia s2 para depois de s1.
+        //
+        // result + len1 significa:
+        // "comece depois do espaço ocupado por s1".
+        memcpy(result + len1, s2, len2);
+    }
+
+
+    // Coloca o caractere de finalização da string.
+    result[len1 + len2] = '\0';
+
+
+    // Retorna a nova string.
+    return result;
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO inputString
+// ------------------------------------------------------------
+
+// Lê uma string digitada pelo usuário.
+char* inputString(void) {
+
+    // Cria um espaço temporário para armazenar o texto.
+    char buffer[1024];
+
+
+    // Tenta ler uma linha.
+    if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+
+        // Se não conseguir ler,
+        // reserva espaço para uma string vazia.
+        char* empty = (char*)malloc(1);
+
+
+        // Verifica se conseguiu reservar memória.
+        if (empty == NULL) {
+
+            // Mostra erro.
+            fprintf(stderr, "Errore: memoria insufficiente in inputString.\n");
+
+            // Encerra o programa.
+            exit(EXIT_FAILURE);
+        }
+
+
+        // Coloca o final da string.
+        empty[0] = '\0';
+
+
+        // Retorna a string vazia.
+        return empty;
+    }
+
+
+    // Calcula o tamanho do texto.
+    size_t len = strlen(buffer);
+
+
+    // Verifica se existe '\n' no final.
+    if (len > 0 && buffer[len - 1] == '\n') {
+
+        // Remove o '\n'.
+        buffer[len - 1] = '\0';
+
+        // Diminui o tamanho em 1.
+        len--;
+    }
+
+
+    // Reserva memória suficiente para a string.
+    //
+    // +1 é para o '\0'.
+    char* result = (char*)malloc(len + 1);
+
+
+    // Verifica se conseguiu reservar memória.
+    if (result == NULL) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore: memoria insufficiente in inputString.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Copia o conteúdo de buffer para result.
+    memcpy(result, buffer, len + 1);
+
+
+    // Retorna a string.
+    return result;
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO inputBool
+// ------------------------------------------------------------
+
+// Lê true ou false.
+bool inputBool(void) {
+
+    // Cria um pequeno espaço para guardar o texto.
+    char buffer[32];
+
+
+    // Loop infinito.
+    for (;;) {
+
+        // Lê uma linha.
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+
+            // Se não conseguir ler,
+            // retorna false.
+            return false;
+        }
+
+
+        // Calcula o tamanho da string.
+        size_t len = strlen(buffer);
+
+
+        // Remove o '\n' do final.
+        if (len > 0 && buffer[len - 1] == '\n') {
+
+            buffer[len - 1] = '\0';
+
+            len--;
+        }
+
+
+        // Variável que indica se existe espaço.
+        //
+        // 0 = não encontrou espaço.
+        // 1 = encontrou espaço.
+        int hasSpace = 0;
+
+
+        // Percorre todos os caracteres do texto.
+        for (size_t i = 0; i < len; i++) {
+
+            // Verifica se o caractere atual é um espaço.
+            if (buffer[i] == ' ') {
+
+                // Marca que encontrou espaço.
+                hasSpace = 1;
+
+                // Para o for.
+                break;
+            }
+
+
+            // Verifica se o caractere atual é TAB.
+            if (buffer[i] == '\t') {
+
+                // Marca que encontrou espaço.
+                hasSpace = 1;
+
+                // Para o for.
+                break;
+            }
+        }
+
+
+        // Se encontrou espaço ou TAB...
+        if (hasSpace) {
+
+            // Mostra uma mensagem de erro.
+            fprintf(stderr, "Valore booleano non valido. Inserire true o false.\n");
+
+            // Volta para o começo do loop.
+            continue;
+        }
+
+
+        // ====================================================
+        // VERIFICANDO A PALAVRA "true"
+        // ====================================================
+
+        // "true" possui 4 caracteres.
+        if (len == 4) {
+
+            // Começamos assumindo que é true.
+            int isTrue = 1;
+
+
+            // Verifica o primeiro caractere.
+            //
+            // Aceita 't' ou 'T'.
+            if (buffer[0] != 't' && buffer[0] != 'T')
+                isTrue = 0;
+
+
+            // Verifica o segundo caractere.
+            if (buffer[1] != 'r' && buffer[1] != 'R')
+                isTrue = 0;
+
+
+            // Verifica o terceiro caractere.
+            if (buffer[2] != 'u' && buffer[2] != 'U')
+                isTrue = 0;
+
+
+            // Verifica o quarto caractere.
+            if (buffer[3] != 'e' && buffer[3] != 'E')
+                isTrue = 0;
+
+
+            // Se todos os caracteres estiverem corretos...
+            if (isTrue) {
+
+                // Retorna true.
+                return true;
+            }
+        }
+
+
+        // ====================================================
+        // VERIFICANDO A PALAVRA "false"
+        // ====================================================
+
+        // "false" possui 5 caracteres.
+        if (len == 5) {
+
+            // Começamos assumindo que é false.
+            int isFalse = 1;
+
+
+            // Verifica o primeiro caractere.
+            if (buffer[0] != 'f' && buffer[0] != 'F')
+                isFalse = 0;
+
+
+            // Verifica o segundo caractere.
+            if (buffer[1] != 'a' && buffer[1] != 'A')
+                isFalse = 0;
+
+
+            // Verifica o terceiro caractere.
+            if (buffer[2] != 'l' && buffer[2] != 'L')
+                isFalse = 0;
+
+
+            // Verifica o quarto caractere.
+            if (buffer[3] != 's' && buffer[3] != 'S')
+                isFalse = 0;
+
+
+            // Verifica o quinto caractere.
+            if (buffer[4] != 'e' && buffer[4] != 'E')
+                isFalse = 0;
+
+
+            // Se todos os caracteres estiverem corretos...
+            if (isFalse) {
+
+                // Retorna false.
+                return false;
+            }
+        }
+
+
+        // Se não foi true nem false,
+        // mostra uma mensagem de erro.
+        fprintf(stderr, "Valore booleano non valido. Inserire true o false.\n");
+    }
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO toChar
+// ------------------------------------------------------------
+
+// Recebe um código inteiro e transforma em caractere.
+char* toChar(int code) {
+
+    // Reserva espaço para:
+    //
+    // 1 caractere
+    // +
+    // 1 '\0'
+    char* result = (char*)malloc(2);
+
+
+    // Verifica se conseguiu reservar memória.
+    if (result == NULL) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore: memoria insufficiente in toChar.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Converte o número para char.
+    result[0] = (char)code;
+
+
+    // Coloca o final da string.
+    result[1] = '\0';
+
+
+    // Retorna o resultado.
+    return result;
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO intToString
+// ------------------------------------------------------------
+
+// Transforma um número inteiro em string.
+char* intToString(int value) {
+
+    // Cria um espaço temporário para guardar o texto.
+    char buffer[32];
+
+
+    // Converte o inteiro para string.
+    //
+    // %d representa um inteiro.
+    int len = snprintf(buffer, sizeof(buffer), "%d", value);
+
+
+    // Verifica se ocorreu algum erro.
+    if (len < 0) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore in intToString.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Reserva memória suficiente para o texto.
+    char* result = (char*)malloc((size_t)len + 1);
+
+
+    // Verifica se conseguiu reservar memória.
+    if (result == NULL) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore: memoria insufficiente in intToString.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Copia o texto para a memória reservada.
+    memcpy(result, buffer, (size_t)len + 1);
+
+
+    // Retorna a string.
+    return result;
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO realToString
+// ------------------------------------------------------------
+
+// Transforma um número real (double) em string.
+char* realToString(double value) {
+
+    // Cria um espaço temporário.
+    char buffer[64];
+
+
+    // Converte o double para texto.
+    //
+    // %g é utilizado para números reais.
+    int len = snprintf(buffer, sizeof(buffer), "%g", value);
+
+
+    // Verifica se ocorreu algum erro.
+    if (len < 0) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore in realToString.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Reserva memória suficiente para a string.
+    char* result = (char*)malloc((size_t)len + 1);
+
+
+    // Verifica se conseguiu reservar memória.
+    if (result == NULL) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore: memoria insufficiente in realToString.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Copia a string para a memória reservada.
+    memcpy(result, buffer, (size_t)len + 1);
+
+
+    // Retorna a string.
+    return result;
+}
+
+
+// ------------------------------------------------------------
+// FUNÇÃO boolToString
+// ------------------------------------------------------------
+
+// Transforma um booleano em string.
+char* boolToString(bool value) {
+
+    // Operador ternário.
+    //
+    // Se value for true:
+    // src recebe "true".
+    //
+    // Se value for false:
+    // src recebe "false".
+    const char* src = value ? "true" : "false";
+
+
+    // Calcula o tamanho da string.
+    size_t len = strlen(src);
+
+
+    // Reserva memória para a string.
+    //
+    // +1 é para o '\0'.
+    char* result = (char*)malloc(len + 1);
+
+
+    // Verifica se conseguiu reservar memória.
+    if (result == NULL) {
+
+        // Mostra erro.
+        fprintf(stderr, "Errore: memoria insufficiente in boolToString.\n");
+
+        // Encerra o programa.
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Copia a string para a memória reservada.
+    memcpy(result, src, len + 1);
+
+
+    // Retorna a string.
+    return result;
+}
