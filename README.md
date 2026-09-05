@@ -26,14 +26,6 @@ A disciplina aborda conceitos relacionados a:
 
 Os trabalhos serão organizados em pastas dentro deste repositório.
 
-### 🧮 Calculadora Científica
-
-Primeiro trabalho desenvolvido na disciplina.
-
-A calculadora foi feita em **linguagem C** e possui diversas operações matemáticas.
-
-📁 [Acessar pasta da Calculadora](./calculadora cientifica em c)
-
 ---
 
 ## 🎯 Objetivo do repositório
