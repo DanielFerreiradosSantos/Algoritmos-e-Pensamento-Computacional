@@ -1,62 +1,46 @@
-# 🧮 Calculadora Científica + IMC e Área em C
+# 🧮 Calculadora Científica em C (20 Funções)
 
-Este projeto é uma **Calculadora Científica de Console** desenvolvida em C padrão (C99/C11). O programa aceita interativamente até 22 operações matemáticas e utilitárias via menu, tratando operações aritméticas básicas, trigonometria, funções exponenciais/logarítmicas, **cálculo de IMC com classificação automática** e **cálculo de área**.
+Este projeto consiste em uma **Calculadora de Console** desenvolvida na linguagem C (padrão C99/C11). O programa conta com um menu interativo contendo **20 operações matemáticas e geométricas**, incluindo tratamento de erros de matemática (como divisão por zero e raízes de números negativos) e funções auxiliares de leitura segura do teclado para evitar travamentos no terminal ou no GDB.
 
 ---
 
 ## 🚀 Recursos e Funcionalidades
 
-O programa conta com tratamento robusto de entrada no terminal, impedindo falhas em caso de digitações inválidas, além de validação para divisão por zero e cálculo de IMC seguro.
+### 📊 Operações Disponíveis (0 a 20)
 
-### 📊 Operações Disponíveis (0 a 22)
-
-| Opção | Operação | Parâmetros Requeridos |
-| :---: | :--- | :--- |
-| **1** | Soma ($A + B$) | Valor A, Valor B |
-| **2** | Subtração ($A - B$) | Valor A, Valor B |
-| **3** | Multiplicação ($A \times B$) | Valor A, Valor B |
-| **4** | Divisão ($A / B$) | Valor A, Valor B (Com validação $B \neq 0$) |
-| **5** | Potência ($A^B$) | Base A, Expoente B |
-| **6** | Módulo / Resto | Valor A, Valor B |
-| **7** | Raiz Quadrada ($\sqrt{A}$) | Valor A |
-| **8** | Seno ($\sin(A)$) | Valor A |
-| **9** | Cosseno ($\cos(A)$) | Valor A |
-| **10** | Tangente ($\tan(A)$) | Valor A |
-| **11** | Arco Seno ($\arcsin(A)$) | Valor A |
-| **12** | Arco Cosseno ($\arccos(A)$) | Valor A |
-| **13** | Arco Tangente ($\arctan(A)$) | Valor A |
-| **14** | Logaritmo na Base 10 ($\log_{10}(A)$) | Valor A |
-| **15** | Logaritmo Natural ($\ln(A)$) | Valor A |
-| **16** | Exponencial ($e^A$) | Valor A |
-| **17** | Valor Absoluto ($|A|$) | Valor A |
-| **18** | Parte Inteira ($\text{int}(A)$) | Valor A |
-| **19** | Função Sinal ($\text{sgn}(A)$) | Valor A |
-| **20** | Fatorial ($A!$) | Valor A |
-| **21** | **Cálculo de IMC** | Peso (kg), Altura (m) |
-| **22** | **Cálculo de Área** | Base, Altura |
-| **0** | **Sair** | Encerra a execução do programa |
+| Opção | Operação | Tipo de Entrada | Descrição / Fórmula |
+| :---: | :--- | :---: | :--- |
+| **1** | **Soma** | 2 números | $A + B$ |
+| **2** | **Subtração** | 2 números | $A - B$ |
+| **3** | **Multiplicação** | 2 números | $A \times B$ |
+| **4** | **Divisão** | 2 números | $A / B$ (com verificação $B \neq 0$) |
+| **5** | **Potenciação** | 2 números | $A^B$ (`pow`) |
+| **6** | **Raiz Quadrada** | 1 número | $\sqrt{A}$ (`sqrt`, com validação $A \ge 0$) |
+| **7** | **Raiz Cúbica** | 1 número | $\sqrt[3]{A}$ (`cbrt`) |
+| **8** | **Seno** | 1 número | $\sin(A)$ em radianos |
+| **9** | **Cosseno** | 1 número | $\cos(A)$ em radianos |
+| **10** | **Tangente** | 1 número | $\tan(A)$ em radianos |
+| **11** | **Logaritmo Natural** | 1 número | $\ln(A)$ (`log`, com validação $A > 0$) |
+| **12** | **Logaritmo Base 10** | 1 número | $\log_{10}(A)$ (`log10`, com validação $A > 0$) |
+| **13** | **Valor Absoluto** | 1 número | $\|A\|$ (`fabs`) |
+| **14** | **Porcentagem** | 2 números | $(X / 100) \times Y$ |
+| **15** | **Média Aritmética** | 2 números | $(A + B) / 2$ |
+| **16** | **Graus $\rightarrow$ Radianos** | 1 número | $A \times (\pi / 180)$ |
+| **17** | **Radianos $\rightarrow$ Graus** | 1 número | $A \times (180 / \pi)$ |
+| **18** | **Área do Círculo** | 1 número | $\pi \times \text{raio}^2$ |
+| **19** | **Área do Retângulo** | 2 números | $\text{base} \times \text{altura}$ |
+| **20** | **Hipotenusa** | 2 números | $\sqrt{A^2 + B^2}$ (`hypot`) |
+| **0** | **Sair** | - | Encerra a execução |
 
 ---
 
-## ⚕️ Classificação de IMC (Opção 21)
-
-Ao selecionar a opção de cálculo do IMC, o programa realiza o cálculo ($\text{Peso} / \text{Altura}^2$) e imprime a respectiva classificação:
-
-* **IMC < 18.5:** `Classificação: Abaixo do peso`
-* **18.5 ≤ IMC < 25.0:** `Classificação: Peso normal`
-* **25.0 ≤ IMC < 30.0:** `Classificação: Sobrepeso (Acima do peso)`
-* **IMC ≥ 30.0:** `Classificação: Obesidade`
-
----
-
-## 🛠️ Compilação e Execução
+## 💻 Como Compilar e Executar
 
 ### Pré-requisitos
 * Compilador C instalado (como `gcc` ou `clang`).
 
-### Passos para Compilar
-
-No terminal, execute o comando a seguir (lembrando de incluir o parâmetro `-lm` para vincular a biblioteca matemática `math.h`):
+### 1. Compilação
+No terminal, utilize a flag `-lm` para vincular a biblioteca matemática (`math.h`):
 
 ```bash
 gcc -o calculadora main.c -lm
