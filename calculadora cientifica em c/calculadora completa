@@ -1,171 +1,243 @@
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
-#include <string.h>
-#include <errno.h>
+// ============================================================================
+// INCLUSÃO DE BIBLIOTECAS (HEADER FILES)
+// ============================================================================
+#include <stdio.h>   // Biblioteca padrão para entrada/saída (printf, scanf, getchar)
+#include <stdlib.h>  // Biblioteca para funções do sistema e controle de memória
+#include <math.h>    // Biblioteca de matemática (pow, sqrt, sin, cos, hypot, log, etc.)
 
-// Prototipi funzioni helper
-double inputValue(void);
-char* realToString(double value);
+// Definindo a constante constante PI com alta precisão matemática
+#define PI 3.14159265358979323846
 
+// ============================================================================
+// FUNÇÕES AUXILIARES DE LEITURA (Evitam travamentos do teclado e do GDB)
+// ============================================================================
+
+// Função para ler números decimais (double) com segurança
+double lerDouble(void) {
+    double valor;
+    // O scanf tenta ler um número decimal (%lf). Se o usuário digitar letras,
+    // o scanf retorna 0 (falha) e entra no loop do 'while'.
+    while (scanf("%lf", &valor) != 1) {
+        // Limpa o buffer do teclado caractere por caractere até encontrar o Enter ('\n')
+        while (getchar() != '\n'); 
+        
+        printf("Entrada invalida. Digite um numero valido: ");
+        fflush(stdout); // Força a exibição do texto imediatamente na tela
+    }
+    return valor; // Retorna o número lido para quem chamou a função
+}
+
+// Função para ler números inteiros (usada para as opções do menu)
+int lerOpcao(void) {
+    int opcao;
+    // Tenta ler um número inteiro (%d)
+    while (scanf("%d", &opcao) != 1) {
+        while (getchar() != '\n'); // Limpa sujeiras do teclado
+        printf("Opcao invalida. Digite um numero inteiro: ");
+        fflush(stdout);
+    }
+    return opcao; // Retorna a opção escolhida
+}
+
+// ============================================================================
+// FUNÇÃO PRINCIPAL (Ponto de entrada do programa)
+// ============================================================================
 int main(void) {
-    int op, i;
-    double a, b, result;
+    // Declaração das variáveis locais
+    int opcao = -1;       // Guarda a opção escolhida pelo usuário no menu
+    double a, b, resultado; // Guarda as entradas do usuário (A e B) e o Resultado da conta
 
-    op = 1;
-    while (op != 0) {
-        printf("\n=== Calculadora Cientifica + IMC e Area ===\n");
-        printf("1:Soma | 2:Subtracao | 3:Multiplicacao | 4:Divisao | 5:Potencia | 6:Modulo\n");
-        printf("7:Raiz | 8:Seno | 9:Cosseno | 10:Tangente | 11:Asin | 12:Acos | 13:Atan\n");
-        printf("14:Log10 | 15:Ln | 16:Exp | 17:Abs | 18:Int | 19:Sinal | 20:Fatorial\n");
-        printf("21:Calculo de IMC | 22:Area do Retangulo/Triangulo\n");
-        printf("0:Sair\n");
-        printf("--------------------------------------------------\n");
-        printf("Escolha a operacao (0 a 22): ");
-        fflush(stdout); // Garante a exibicao do menu no GDB antes do input
+    // Estrutura de Repetição: Repete o menu até o usuário digitar 0 para sair
+    while (opcao != 0) {
+        // Exibição do Menu no Console
+        printf("\n======================================================\n");
+        printf("              CALCULADORA DE 20 FUNCOES               \n");
+        printf("======================================================\n");
+        printf(" 1: Soma (+)                   11: Logaritmo Natural (ln)\n");
+        printf(" 2: Subtracao (-)              12: Logaritmo Base 10 (log10)\n");
+        printf(" 3: Multiplicacao (*)          13: Valor Absoluto (|x|)\n");
+        printf(" 4: Divisao (/)                14: Porcentagem (x%% de y)\n");
+        printf(" 5: Potenciacao (x^y)          15: Media Aritmetica\n");
+        printf(" 6: Raiz Quadrada (sqrt)       16: Graus -> Radianos\n");
+        printf(" 7: Raiz Cubica (cbrt)         17: Radianos -> Graus\n");
+        printf(" 8: Seno (rad)                 18: Area do Circulo\n");
+        printf(" 9: Cosseno (rad)              19: Area do Retangulo\n");
+        printf("10: Tangente (rad)             20: Hipotenusa (Pythagoras)\n");
+        printf(" 0: Sair\n");
+        printf("------------------------------------------------------\n");
+        printf("Escolha uma opcao (0 a 20): ");
+        
+        // Importante no GDB: Despeja o texto do printf na tela antes de congelar esperando o usuário
+        fflush(stdout); 
 
-        op = (int) inputValue();
+        // Lê a opção digitada
+        opcao = lerOpcao();
 
-        if (op > 0 && op <= 22) {
-            if ((op >= 1 && op <= 6) || op == 21 || op == 22) {
-                if (op == 21) {
-                    printf("Digite o peso (kg): ");
-                    fflush(stdout);
-                    a = inputValue();
-                    
-                    printf("Digite a altura (m): ");
-                    fflush(stdout);
-                    b = inputValue();
-                    
-                    if (b > 0) {
-                        result = (a / pow(b, 2));
-                        if (result < 18.5) {
-                            printf("Classificacao: Abaixo do peso\n");
-                        } else if (result < 25.0) {
-                            printf("Classificacao: Peso normal\n");
-                        } else if (result < 30.0) {
-                            printf("Classificacao: Sobrepeso (Acima do peso)\n");
-                        } else {
-                            printf("Classificacao: Obesidade\n");
-                        }
-                    } else {
-                        printf("ERRO: Altura deve ser maior que zero!\n");
-                        result = 0;
-                    }
-                } else if (op == 22) {
-                    printf("Digite a Base: ");
-                    fflush(stdout);
-                    a = inputValue();
-                    
-                    printf("Digite a Altura: ");
-                    fflush(stdout);
-                    b = inputValue();
-                    
-                    result = (a * b);
-                } else {
-                    printf("Digite o valor de A: ");
-                    fflush(stdout);
-                    a = inputValue();
-                    
-                    printf("Digite o valor de B: ");
-                    fflush(stdout);
-                    b = inputValue();
-                    
-                    if (op == 1) result = (a + b);
-                    if (op == 2) result = (a - b);
-                    if (op == 3) result = (a * b);
-                    if (op == 4) {
-                        if (b != 0) {
-                            result = (a / b);
-                        } else {
-                            printf("ERRO: Divisao por zero!\n");
-                            result = 0;
-                        }
-                    }
-                    if (op == 5) result = pow(a, b);
-                    if (op == 6) {
-                        if ((long long)b != 0) {
-                            result = (double)((long long)a % (long long)b);
-                        } else {
-                            printf("ERRO: Modulo por zero!\n");
-                            result = 0;
-                        }
-                    }
-                }
-            } else {
-                printf("Digite o valor de A: ");
+        // Verificação 1: Se o usuário escolheu Sair (0)
+        if (opcao == 0) {
+            printf("\nEncerrando a calculadora... Ate logo!\n");
+            break; // Interrompe o laço 'while' imediatamente
+        }
+
+        // Verificação 2: Se o número digitado está fora do intervalo do menu
+        if (opcao < 0 || opcao > 20) {
+            printf("\nOpcao invalida! Escolha um numero entre 0 e 20.\n");
+            continue; // Pula o resto da execução e volta para o início do 'while'
+        }
+
+        // ====================================================================
+        // BLOCO 1: OPERAÇÕES QUE EXIGEM 2 NÚMEROS (A e B)
+        // ====================================================================
+        if ((opcao >= 1 && opcao <= 5) || opcao == 14 || opcao == 15 || opcao == 19 || opcao == 20) {
+            
+            // Personaliza a mensagem na tela dependendo da operação escolhida
+            if (opcao == 14) {
+                printf("Digite a porcentagem (%%): ");
                 fflush(stdout);
-                a = inputValue();
-                
-                if (op == 7) result = sqrt(a);
-                if (op == 8) result = sin(a);
-                if (op == 9) result = cos(a);
-                if (op == 10) result = tan(a);
-                if (op == 11) result = asin(a);
-                if (op == 12) result = acos(a);
-                if (op == 13) result = atan(a);
-                if (op == 14) result = log10(a);
-                if (op == 15) result = log(a);
-                if (op == 16) result = exp(a);
-                if (op == 17) result = fabs(a);
-                if (op == 18) result = (int)(a);
-                if (op == 19) result = (a > 0 ? 1 : (a < 0 ? -1 : 0));
-                if (op == 20) {
-                    result = 1;
-                    for (i = 1; i <= (int)(a); i++) {
-                        result = (result * i);
+                a = lerDouble();
+                printf("Digite o valor total: ");
+                fflush(stdout);
+                b = lerDouble();
+            } else if (opcao == 19) {
+                printf("Digite a Base do retangulo: ");
+                fflush(stdout);
+                a = lerDouble();
+                printf("Digite a Altura do retangulo: ");
+                fflush(stdout);
+                b = lerDouble();
+            } else if (opcao == 20) {
+                printf("Digite o Cateto A: ");
+                fflush(stdout);
+                a = lerDouble();
+                printf("Digite o Cateto B: ");
+                fflush(stdout);
+                b = lerDouble();
+            } else {
+                printf("Digite o primeiro valor (A): ");
+                fflush(stdout);
+                a = lerDouble();
+                printf("Digite o segundo valor (B): ");
+                fflush(stdout);
+                b = lerDouble();
+            }
+
+            // Seleciona e executa a matemática para 2 entradas
+            switch (opcao) {
+                case 1: // Soma
+                    resultado = a + b;
+                    break;
+                case 2: // Subtração
+                    resultado = a - b;
+                    break;
+                case 3: // Multiplicação
+                    resultado = a * b;
+                    break;
+                case 4: // Divisão
+                    if (b != 0) {
+                        resultado = a / b;
+                    } else {
+                        printf("\nERRO: Divisao por zero nao existe!\n");
+                        continue; // Cancela a exibição do resultado e volta ao menu
                     }
-                }
+                    break;
+                case 5: // Potenciação (A elevado a B)
+                    resultado = pow(a, b);
+                    break;
+                case 14: // Porcentagem (A% de B)
+                    resultado = (a / 100.0) * b;
+                    break;
+                case 15: // Média Aritmética simples
+                    resultado = (a + b) / 2.0;
+                    break;
+                case 19: // Área de Retângulo (Base * Altura)
+                    resultado = a * b;
+                    break;
+                case 20: // Hipotenusa (Função hypot da math.h calcula: sqrt(a^2 + b^2))
+                    resultado = hypot(a, b);
+                    break;
             }
+        } 
+        // ====================================================================
+        // BLOCO 2: OPERAÇÕES QUE EXIGEM APENAS 1 NÚMERO (A)
+        // ====================================================================
+        else {
+            // Personaliza a pergunta dependendo da operação
+            if (opcao == 18) {
+                printf("Digite o Raio do circulo: ");
+            } else if (opcao == 16) {
+                printf("Digite o valor em Graus: ");
+            } else if (opcao == 17) {
+                printf("Digite o valor em Radianos: ");
+            } else {
+                printf("Digite o valor (x): ");
+            }
+            fflush(stdout);
+            a = lerDouble(); // Lê o único valor necessário
 
-            char* resStr = realToString(result);
-            printf("=====> Resultado: %s\n\n", resStr);
-            free(resStr); // Libera a memoria alocada
-        } else {
-            if (op != 0) {
-                printf("Opcao Invalida!\n");
+            // Seleciona e executa a matemática para 1 entrada
+            switch (opcao) {
+                case 6: // Raiz Quadrada
+                    if (a >= 0) {
+                        resultado = sqrt(a);
+                    } else {
+                        printf("\nERRO: Raiz quadrada de numero negativo nao e real!\n");
+                        continue;
+                    }
+                    break;
+                case 7: // Raiz Cúbica
+                    resultado = cbrt(a);
+                    break;
+                case 8: // Seno (entrada deve ser em radianos)
+                    resultado = sin(a);
+                    break;
+                case 9: // Cosseno (entrada em radianos)
+                    resultado = cos(a);
+                    break;
+                case 10: // Tangente (entrada em radianos)
+                    resultado = tan(a);
+                    break;
+                case 11: // Logaritmo Natural (Base e)
+                    if (a > 0) {
+                        resultado = log(a);
+                    } else {
+                        printf("\nERRO: Logaritmo exige valor maior que zero!\n");
+                        continue;
+                    }
+                    break;
+                case 12: // Logaritmo de Base 10
+                    if (a > 0) {
+                        resultado = log10(a);
+                    } else {
+                        printf("\nERRO: Logaritmo exige valor maior que zero!\n");
+                        continue;
+                    }
+                    break;
+                case 13: // Valor Absoluto (remove o sinal negativo se houver)
+                    resultado = fabs(a);
+                    break;
+                case 16: // Conversão: Graus para Radianos (Graus * (PI / 180))
+                    resultado = a * (PI / 180.0);
+                    break;
+                case 17: // Conversão: Radianos para Graus (Radianos * (180 / PI))
+                    resultado = a * (180.0 / PI);
+                    break;
+                case 18: // Área do Círculo (PI * Raio^2)
+                    if (a >= 0) {
+                        resultado = PI * pow(a, 2);
+                    } else {
+                        printf("\nERRO: Raio nao pode ser negativo!\n");
+                        continue;
+                    }
+                    break;
             }
         }
-    }
-    return 0;
-}
 
-// Funcoes de suporte para leitura segura e conversao
-double inputValue(void) {
-    char buffer[1024];
-    for (;;) {
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
-            return 0.0;
-        }
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
-        }
-        errno = 0;
-        char* endptr;
-        double value = strtod(buffer, &endptr);
-        if (endptr != buffer && *endptr == '\0' && errno == 0) {
-            return value;
-        }
-        fprintf(stderr, "Valore non valido. Inserire un numero.\n");
-        fflush(stderr);
+        // ====================================================================
+        // EXIBIÇÃO DO RESULTADO
+        // %g imprime o número de forma limpa (sem zeros desnecessários à direita)
+        // ====================================================================
+        printf("\n=====> RESULTADO: %g\n", resultado);
     }
-}
 
-char* realToString(double value) {
-    char buffer[64];
-    int len = snprintf(buffer, sizeof(buffer), "%g", value);
-    if (len < 0) {
-        fprintf(stderr, "Errore in realToString.\n");
-        exit(EXIT_FAILURE);
-    }
-    char* result = (char*)malloc((size_t)len + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Errore: memoria insufficiente in realToString.\n");
-        exit(EXIT_FAILURE);
-    }
-    memcpy(result, buffer, (size_t)len + 1);
-    return result;
+    return 0; // Indica ao sistema operacional que o programa encerrou com sucesso
 }
