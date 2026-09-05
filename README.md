@@ -32,7 +32,7 @@ Primeiro trabalho desenvolvido na disciplina.
 
 A calculadora foi feita em **linguagem C** e possui diversas operações matemáticas.
 
-📁 [Acessar pasta da Calculadora](./calculadora)
+📁 [Acessar pasta da Calculadora](./calculadora cientifica em c)
 
 ---
 
