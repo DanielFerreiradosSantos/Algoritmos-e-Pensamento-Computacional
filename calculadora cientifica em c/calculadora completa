@@ -6,20 +6,9 @@
 #include <string.h>
 #include <errno.h>
 
-// Prototipi funzioni di conversione
-int toInt(const char* text);
-double toReal(const char* text);
-const char* toString(double value);
-
-// Prototipi funzioni input helper
+// Prototipi funzioni helper
 double inputValue(void);
-char* inputString(void);
-bool inputBool(void);
-char* stringConcat(const char* s1, const char* s2);
-char* toChar(int code);
-char* intToString(int value);
 char* realToString(double value);
-char* boolToString(bool value);
 
 int main(void) {
     int op, i;
@@ -27,120 +16,102 @@ int main(void) {
 
     op = 1;
     while (op != 0) {
-        printf("%s\n", "=== Calculadora Cientifica + IMC e Area ===");
-        printf("%s\n", "1:Soma | 2:Subtracao | 3:Multiplicacao | 4:Divisao | 5:Potencia | 6:Modulo");
-        printf("%s\n", "7:Raiz | 8:Seno | 9:Cosseno | 10:Tangente | 11:Asin | 12:Acos | 13:Atan");
-        printf("%s\n", "14:Log10 | 15:Ln | 16:Exp | 17:Abs | 18:Int | 19:Sinal | 20:Fatorial");
-        printf("%s\n", "21:Calculo de IMC | 22:Area do Retangulo/Triangulo");
-        printf("%s\n", "0:Sair");
-        printf("%s\n", "--------------------------------------------------");
-        printf("%s\n", "Escolha a operacao (0 a 22):");
+        printf("\n=== Calculadora Cientifica + IMC e Area ===\n");
+        printf("1:Soma | 2:Subtracao | 3:Multiplicacao | 4:Divisao | 5:Potencia | 6:Modulo\n");
+        printf("7:Raiz | 8:Seno | 9:Cosseno | 10:Tangente | 11:Asin | 12:Acos | 13:Atan\n");
+        printf("14:Log10 | 15:Ln | 16:Exp | 17:Abs | 18:Int | 19:Sinal | 20:Fatorial\n");
+        printf("21:Calculo de IMC | 22:Area do Retangulo/Triangulo\n");
+        printf("0:Sair\n");
+        printf("--------------------------------------------------\n");
+        printf("Escolha a operacao (0 a 22): ");
+        fflush(stdout); // Garante a exibicao do menu no GDB antes do input
+
         op = (int) inputValue();
+
         if (op > 0 && op <= 22) {
-            if (op >= 1 && op <= 6 || op == 21 || op == 22) {
+            if ((op >= 1 && op <= 6) || op == 21 || op == 22) {
                 if (op == 21) {
-                    printf("%s\n", "Digite o peso (kg):");
+                    printf("Digite o peso (kg): ");
+                    fflush(stdout);
                     a = inputValue();
-                    printf("%s\n", "Digite a altura (m):");
+                    
+                    printf("Digite a altura (m): ");
+                    fflush(stdout);
                     b = inputValue();
+                    
                     if (b > 0) {
                         result = (a / pow(b, 2));
                         if (result < 18.5) {
-                            printf("%s\n", "Classificacao: Abaixo do peso");
+                            printf("Classificacao: Abaixo do peso\n");
+                        } else if (result < 25.0) {
+                            printf("Classificacao: Peso normal\n");
+                        } else if (result < 30.0) {
+                            printf("Classificacao: Sobrepeso (Acima do peso)\n");
                         } else {
-                            if (result < 25.0) {
-                                printf("%s\n", "Classificacao: Peso normal");
-                            } else {
-                                if (result < 30.0) {
-                                    printf("%s\n", "Classificacao: Sobrepeso (Acima do peso)");
-                                } else {
-                                    printf("%s\n", "Classificacao: Obesidade");
-                                }
-                            }
+                            printf("Classificacao: Obesidade\n");
                         }
                     } else {
-                        printf("%s\n", "ERRO: Altura deve ser maior que zero!");
+                        printf("ERRO: Altura deve ser maior que zero!\n");
                         result = 0;
                     }
+                } else if (op == 22) {
+                    printf("Digite a Base: ");
+                    fflush(stdout);
+                    a = inputValue();
+                    
+                    printf("Digite a Altura: ");
+                    fflush(stdout);
+                    b = inputValue();
+                    
+                    result = (a * b);
                 } else {
-                    if (op == 22) {
-                        printf("%s\n", "Digite a Base:");
-                        a = inputValue();
-                        printf("%s\n", "Digite a Altura:");
-                        b = inputValue();
-                        result = (a * b);
-                    } else {
-                        printf("%s\n", "Digite o valor de A:");
-                        a = inputValue();
-                        printf("%s\n", "Digite o valor de B:");
-                        b = inputValue();
-                        if (op == 1) {
-                            result = (a + b);
+                    printf("Digite o valor de A: ");
+                    fflush(stdout);
+                    a = inputValue();
+                    
+                    printf("Digite o valor de B: ");
+                    fflush(stdout);
+                    b = inputValue();
+                    
+                    if (op == 1) result = (a + b);
+                    if (op == 2) result = (a - b);
+                    if (op == 3) result = (a * b);
+                    if (op == 4) {
+                        if (b != 0) {
+                            result = (a / b);
+                        } else {
+                            printf("ERRO: Divisao por zero!\n");
+                            result = 0;
                         }
-                        if (op == 2) {
-                            result = (a - b);
-                        }
-                        if (op == 3) {
-                            result = (a * b);
-                        }
-                        if (op == 4) {
-                            if (b != 0) {
-                                result = (a / b);
-                            } else {
-                                printf("%s\n", "ERRO: Divisao por zero!");
-                                result = 0;
-                            }
-                        }
-                        if (op == 5) {
-                            result = pow(a, b);
-                        }
-                        if (op == 6) {
-                            result = (a % b);
+                    }
+                    if (op == 5) result = pow(a, b);
+                    if (op == 6) {
+                        if ((long long)b != 0) {
+                            result = (double)((long long)a % (long long)b);
+                        } else {
+                            printf("ERRO: Modulo por zero!\n");
+                            result = 0;
                         }
                     }
                 }
             } else {
-                printf("%s\n", "Digite o valor de A:");
+                printf("Digite o valor de A: ");
+                fflush(stdout);
                 a = inputValue();
-                if (op == 7) {
-                    result = sqrt(a);
-                }
-                if (op == 8) {
-                    result = sin(a);
-                }
-                if (op == 9) {
-                    result = cos(a);
-                }
-                if (op == 10) {
-                    result = tan(a);
-                }
-                if (op == 11) {
-                    result = asin(a);
-                }
-                if (op == 12) {
-                    result = acos(a);
-                }
-                if (op == 13) {
-                    result = atan(a);
-                }
-                if (op == 14) {
-                    result = log10(a);
-                }
-                if (op == 15) {
-                    result = log(a);
-                }
-                if (op == 16) {
-                    result = exp(a);
-                }
-                if (op == 17) {
-                    result = fabs(a);
-                }
-                if (op == 18) {
-                    result = (int)(a);
-                }
-                if (op == 19) {
-                    result = (a > 0 ? 1 : (a < 0 ? -1 : 0));
-                }
+                
+                if (op == 7) result = sqrt(a);
+                if (op == 8) result = sin(a);
+                if (op == 9) result = cos(a);
+                if (op == 10) result = tan(a);
+                if (op == 11) result = asin(a);
+                if (op == 12) result = acos(a);
+                if (op == 13) result = atan(a);
+                if (op == 14) result = log10(a);
+                if (op == 15) result = log(a);
+                if (op == 16) result = exp(a);
+                if (op == 17) result = fabs(a);
+                if (op == 18) result = (int)(a);
+                if (op == 19) result = (a > 0 ? 1 : (a < 0 ? -1 : 0));
                 if (op == 20) {
                     result = 1;
                     for (i = 1; i <= (int)(a); i++) {
@@ -148,32 +119,20 @@ int main(void) {
                     }
                 }
             }
-            printf("%s\n", stringConcat(stringConcat("=====> Resultado: ", realToString(result)), "\\r\\n"));
+
+            char* resStr = realToString(result);
+            printf("=====> Resultado: %s\n\n", resStr);
+            free(resStr); // Libera a memoria alocada
         } else {
             if (op != 0) {
-                printf("%s\n", "Opcao Invalida!");
+                printf("Opcao Invalida!\n");
             }
         }
     }
     return 0;
 }
 
-// Implementazione funzioni di supporto
-
-int toInt(const char* text) {
-    return atoi(text);
-}
-
-double toReal(const char* text) {
-    return atof(text);
-}
-
-const char* toString(double value) {
-    static char buffer[64];
-    snprintf(buffer, sizeof(buffer), "%g", value);
-    return buffer;
-}
-
+// Funcoes de suporte para leitura segura e conversao
 double inputValue(void) {
     char buffer[1024];
     for (;;) {
@@ -191,128 +150,8 @@ double inputValue(void) {
             return value;
         }
         fprintf(stderr, "Valore non valido. Inserire un numero.\n");
+        fflush(stderr);
     }
-}
-
-char* stringConcat(const char* s1, const char* s2) {
-    size_t len1 = (s1 != NULL) ? strlen(s1) : 0;
-    size_t len2 = (s2 != NULL) ? strlen(s2) : 0;
-    char* result = (char*)malloc(len1 + len2 + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Errore: memoria insufficiente in stringConcat.\n");
-        exit(EXIT_FAILURE);
-    }
-    if (s1 != NULL) {
-        memcpy(result, s1, len1);
-    }
-    if (s2 != NULL) {
-        memcpy(result + len1, s2, len2);
-    }
-    result[len1 + len2] = '\0';
-    return result;
-}
-
-char* inputString(void) {
-    char buffer[1024];
-    if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
-        char* empty = (char*)malloc(1);
-        if (empty == NULL) {
-            fprintf(stderr, "Errore: memoria insufficiente in inputString.\n");
-            exit(EXIT_FAILURE);
-        }
-        empty[0] = '\0';
-        return empty;
-    }
-    size_t len = strlen(buffer);
-    if (len > 0 && buffer[len - 1] == '\n') {
-        buffer[len - 1] = '\0';
-        len--;
-    }
-    char* result = (char*)malloc(len + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Errore: memoria insufficiente in inputString.\n");
-        exit(EXIT_FAILURE);
-    }
-    memcpy(result, buffer, len + 1);
-    return result;
-}
-
-bool inputBool(void) {
-    char buffer[32];
-    for (;;) {
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
-            return false;
-        }
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
-            len--;
-        }
-        int hasSpace = 0;
-        for (size_t i = 0; i < len; i++) {
-            if (buffer[i] == ' ') {
-                hasSpace = 1;
-                break;
-            }
-            if (buffer[i] == '\t') {
-                hasSpace = 1;
-                break;
-            }
-        }
-        if (hasSpace) {
-            fprintf(stderr, "Valore booleano non valido. Inserire true o false.\n");
-            continue;
-        }
-        if (len == 4) {
-            int isTrue = 1;
-            if (buffer[0] != 't' && buffer[0] != 'T') isTrue = 0;
-            if (buffer[1] != 'r' && buffer[1] != 'R') isTrue = 0;
-            if (buffer[2] != 'u' && buffer[2] != 'U') isTrue = 0;
-            if (buffer[3] != 'e' && buffer[3] != 'E') isTrue = 0;
-            if (isTrue) {
-                return true;
-            }
-        }
-        if (len == 5) {
-            int isFalse = 1;
-            if (buffer[0] != 'f' && buffer[0] != 'F') isFalse = 0;
-            if (buffer[1] != 'a' && buffer[1] != 'A') isFalse = 0;
-            if (buffer[2] != 'l' && buffer[2] != 'L') isFalse = 0;
-            if (buffer[3] != 's' && buffer[3] != 'S') isFalse = 0;
-            if (buffer[4] != 'e' && buffer[4] != 'E') isFalse = 0;
-            if (isFalse) {
-                return false;
-            }
-        }
-        fprintf(stderr, "Valore booleano non valido. Inserire true o false.\n");
-    }
-}
-
-char* toChar(int code) {
-    char* result = (char*)malloc(2);
-    if (result == NULL) {
-        fprintf(stderr, "Errore: memoria insufficiente in toChar.\n");
-        exit(EXIT_FAILURE);
-    }
-    result[0] = (char)code;
-    result[1] = '\0';
-    return result;
-}
-
-char* intToString(int value) {
-    char buffer[32];
-    int len = snprintf(buffer, sizeof(buffer), "%d", value);
-    if (len < 0) {
-        fprintf(stderr, "Errore in intToString.\n");
-        exit(EXIT_FAILURE);
-    }
-    char* result = (char*)malloc((size_t)len + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Errore: memoria insufficiente in intToString.\n");
-        exit(EXIT_FAILURE);
-    }
-    memcpy(result, buffer, (size_t)len + 1);
-    return result;
 }
 
 char* realToString(double value) {
@@ -328,17 +167,5 @@ char* realToString(double value) {
         exit(EXIT_FAILURE);
     }
     memcpy(result, buffer, (size_t)len + 1);
-    return result;
-}
-
-char* boolToString(bool value) {
-    const char* src = value ? "true" : "false";
-    size_t len = strlen(src);
-    char* result = (char*)malloc(len + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Errore: memoria insufficiente in boolToString.\n");
-        exit(EXIT_FAILURE);
-    }
-    memcpy(result, src, len + 1);
     return result;
 }
