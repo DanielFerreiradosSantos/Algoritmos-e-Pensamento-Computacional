@@ -39,6 +39,16 @@ do {
     }
 
 } while (limite <= 0);
+```
+
+---
 
 ## 4. Reflexão
-Escolhi uma combinação de while e do...while porque cada estrutura se encaixa melhor em uma parte do algoritmo. Usei do...while para definir o limite de temperatura, pois o usuário precisa informar um valor pelo menos uma vez antes que o programa possa verificar se ele é válido. Já o while foi utilizado para realizar as leituras de temperatura continuamente, até que o usuário digite 0 ou sejam detectadas três temperaturas consecutivas acima do limite.
+
+Escolhi uma combinação das estruturas `while` e `do...while` porque cada uma se adapta melhor a uma parte específica do algoritmo.
+
+O `do...while` foi utilizado na definição do limite de temperatura, pois o usuário precisa informar um valor pelo menos uma vez antes que o programa possa verificar se ele é válido. Nesse caso, a condição é testada após a execução do bloco.
+
+Já o `while` foi utilizado para realizar as leituras de temperatura continuamente, permitindo que o monitoramento permaneça ativo até que o usuário digite `0` ou sejam detectadas três temperaturas consecutivas acima do limite.
+
+A diferença entre testar a condição antes ou depois da execução foi importante principalmente na etapa de definição do limite. O `do...while` garantiu que a entrada fosse solicitada pelo menos uma vez, enquanto o `while` permitiu repetir as leituras enquanto as condições de funcionamento do sistema fossem atendidas.
