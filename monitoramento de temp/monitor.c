@@ -5,37 +5,27 @@ int main() {
     float limite;
     float temperatura;
     float soma = 0.0;
+    float maior = 0.0;
+    float menor = 0.0;
+    float media;
 
-    float maior;
-    float menor;
-
-    int leituras = 0;
-    int acima_do_limite = 0;
-    int sequencia_acima = 0;
+    int total_leituras = 0;
+    int acima_limite = 0;
+    int consecutivas = 0;
 
     printf("============================================\n");
     printf("       SISTEMA DE MONITORAMENTO             \n");
     printf("============================================\n");
 
-    // Solicita o limite de temperatura ao usuario
+    // Solicita o limite de temperatura
+    // O do...while garante que o usuario informe um valor maior que zero
     do {
 
         printf("Digite o limite de temperatura: ");
+        scanf("%f", &limite);
 
-        // Verifica se o usuario digitou um numero
-        if (scanf("%f", &limite) != 1) {
-
-            printf("Entrada invalida. Digite um valor numerico.\n");
-
-            // Limpa o que ficou no teclado
-            while (getchar() != '\n');
-
-            continue;
-        }
-
-        // O limite precisa ser maior que zero
         if (limite <= 0) {
-            printf("O limite deve ser maior que 0 graus.\n");
+            printf("O limite deve ser maior que zero.\n");
         }
 
     } while (limite <= 0);
@@ -45,34 +35,22 @@ int main() {
     printf("Digite 0 para encerrar o monitoramento.\n\n");
 
 
-    // Loop principal do monitoramento
+    // O while mantem o programa recebendo temperaturas
     while (1) {
 
-        printf("Temperatura da leitura %d: ", leituras + 1);
-
-        // Verifica se foi digitado um numero
-        if (scanf("%f", &temperatura) != 1) {
-
-            printf("Entrada invalida. Digite um valor numerico.\n");
-
-            while (getchar() != '\n');
-
-            continue;
-        }
+        printf("Digite a temperatura: ");
+        scanf("%f", &temperatura);
 
 
-        // Encerra manualmente quando o usuario digitar 0
+        // Se o usuario digitar 0, encerra o programa
         if (temperatura == 0) {
-
-            printf("\nMonitoramento encerrado pelo usuario.\n");
-
+            printf("\nMonitoramento encerrado.\n");
             break;
         }
 
 
-        // Primeira leitura:
-        // ela sera usada como referencia para maior e menor temperatura
-        if (leituras == 0) {
+        // A primeira temperatura sera usada como maior e menor
+        if (total_leituras == 0) {
 
             maior = temperatura;
             menor = temperatura;
@@ -91,36 +69,36 @@ int main() {
         }
 
 
-        // Soma a temperatura para calcular a media posteriormente
-        soma += temperatura;
+        // Soma as temperaturas
+        soma = soma + temperatura;
 
-        // Aumenta a quantidade de leituras validas
-        leituras++;
+        // Conta a quantidade de leituras
+        total_leituras++;
 
 
         // Verifica se a temperatura ultrapassou o limite
         if (temperatura > limite) {
 
-            acima_do_limite++;
-            sequencia_acima++;
+            acima_limite++;
+            consecutivas++;
 
-            printf("ALERTA: temperatura acima do limite.\n");
-            printf("Sequencia atual: %d de 3.\n", sequencia_acima);
+            printf("ALERTA: temperatura acima do limite!\n");
+            printf("Temperaturas acima em sequencia: %d\n", consecutivas);
 
         } else {
 
             // Se a temperatura estiver normal,
-            // a sequencia de temperaturas altas volta para zero
-            sequencia_acima = 0;
+            // a sequencia volta para zero
+            consecutivas = 0;
         }
 
 
-        // Se houver 3 temperaturas altas consecutivas,
-        // o sistema encerra automaticamente
-        if (sequencia_acima >= 3) {
+        // Se houver 3 temperaturas acima do limite
+        // em sequencia, o sistema encerra
+        if (consecutivas == 3) {
 
             printf("\nALERTA DE SEGURANCA!\n");
-            printf("Foram detectadas 3 temperaturas acima do limite.\n");
+            printf("Tres temperaturas consecutivas acima do limite.\n");
             printf("Desligamento automatico ativado.\n");
 
             break;
@@ -128,30 +106,28 @@ int main() {
     }
 
 
-    // Relatorio final
-    printf("\n============================================\n");
-    printf("              RELATORIO FINAL              \n");
-    printf("============================================\n");
+    // Verifica se pelo menos uma temperatura foi registrada
+    if (total_leituras > 0) {
 
+        media = soma / total_leituras;
 
-    // Verifica se houve pelo menos uma leitura valida
-    if (leituras > 0) {
+        printf("\n============================================\n");
+        printf("              RELATORIO FINAL               \n");
+        printf("============================================\n");
 
-        float media = soma / leituras;
+        printf("Total de leituras: %d\n", total_leituras);
+        printf("Media das temperaturas: %.2f\n", media);
+        printf("Maior temperatura: %.2f\n", maior);
+        printf("Menor temperatura: %.2f\n", menor);
+        printf("Leituras acima do limite: %d\n", acima_limite);
 
-        printf("Total de leituras: %d\n", leituras);
-        printf("Media das temperaturas: %.2f graus\n", media);
-        printf("Maior temperatura: %.2f graus\n", maior);
-        printf("Menor temperatura: %.2f graus\n", menor);
-        printf("Leituras acima do limite: %d\n", acima_do_limite);
+        printf("============================================\n");
 
     } else {
 
-        printf("Nenhuma leitura valida foi registrada.\n");
+        printf("\nNenhuma leitura foi registrada.\n");
     }
 
-
-    printf("============================================\n");
 
     return 0;
 }
