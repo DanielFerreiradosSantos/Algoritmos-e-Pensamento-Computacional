@@ -39,3 +39,6 @@ do {
     }
 
 } while (limite <= 0);
+
+## 4. Reflexão
+Escolhi uma combinação de while e do...while porque cada estrutura se encaixa melhor em uma parte do algoritmo. Usei do...while para definir o limite de temperatura, pois o usuário precisa informar um valor pelo menos uma vez antes que o programa possa verificar se ele é válido. Já o while foi utilizado para realizar as leituras de temperatura continuamente, até que o usuário digite 0 ou sejam detectadas três temperaturas consecutivas acima do limite.
